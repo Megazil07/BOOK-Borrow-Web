@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History(User)</title>
+
+    <!-- link -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/Public/CSS/historyUSER.css">
+    <link rel="stylesheet" href="/Public/CSS/navbar.css">
+    <link rel="stylesheet" href="/Public/CSS/logout.css">
+    <!--  -->
+
+</head>
+
+<body>
+    <nav class="nav-con">
+        <div class="user-profile">
+            <i class='bx bxs-user-circle'></i>
+            <h3></h3>
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="" id="booklist_student">Booklist</a></li>
+                <li><a href="" id="checkrequ_s">Request Status</a></li>
+                <li><a href="" id="historyuser">History</a></li>
+                <li><a href="" id="logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- index -->
+    <h1 class="flex-row">History</h1>
+    <div class="tbdata">
+        <table class="table table-striped" id="userHistoryTable">
+            <thead>
+                <tr>
+                    <th>Book Name</th>
+                    <th>Borrowing Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                    <th>Lecturer ID</th>
+                    <th>Staff ID</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        async function gethistoryuserList() {
+            try {
+                const options = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                };
+
+                const response = await fetch('/historyuser', options);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+
+                    let html = '';
+                    // นำข้อมูลที่ได้รับมาแสดงเฉพาะ request ที่มี status เป็น 3 หรือ 4
+                    data.forEach(history => {
+                        // if (history.status === 3 || history.status === 4) {
+                        let status;
+                        if (history.status == 3) {
+                            status = 'returned';
+                        } else {
+                            status = 'Disapprove';
+                        }
+
+                        html += `<tr>
+                                <td>${history.name}</td>
+                                <td>${history.borrowing_date}</td>
+                                <td>${history.returned_date}</td>
+                                <td>${status}</td>
+                                <td>${history.lecturer_id}</td>
+                                <td>${history.staff_id}</td>
+                            </tr>`;
+
+                    });
+                    document.getElementById('tbody').innerHTML = html;
+                } else if (response.status == 401) {
+                    const message = await response.text();
+                    throw new Error(message);
+                }
+                else {
+                    throw new Error('Failed to fetch user history:' + error);
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+        document.querySelector('#logout').onclick = function () {
+            event.preventDefault();
+            Swal.fire({
+                customClass: {
+                    confirmButton: "custom-button-confirm", // Define your custom class name
+                    cancelButton: "custom-button-cancel", // Apply the same class to the cancel button
+                },
+                buttonsStyling: false,
+                title: "<h5 style='color: black'>Are you sure?</h5>",
+                text: "TO LOGOUT THIS ID ACCOUNT?",
+                icon: "question",
+                imageUrl: "/Public/IMG/book.png",
+                imageWidth: 150,
+                showCancelButton: true,
+                confirmButtonColor: "#4d9f9f",
+                cancelButtonColor: "#f1eee5",
+                confirmButtonText: "Yes!",
+                cancelButtonText: "No"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    window.location.replace('/logout');
+                }
+            });
+        }
+
+        // code to go to the RQSTUSER.html
+        document.querySelector('#checkrequ_s').onclick = async function (e) {
+            e.preventDefault();
+            window.location.replace('/requeststatus');
+        };
+        document.querySelector('#booklist_student').onclick = async function (e) {
+            e.preventDefault();
+            window.location.replace('/Booklist-student');
+        };
+        document.querySelector('#historyuser').onclick = async function (e) {
+            e.preventDefault();
+            window.location.replace('/historyuser');
+        };
+
+
+        gethistoryuserList();
+
+        async function getUsername() {
+            const response = await fetch('/user');
+            const message = await response.json();
+            document.querySelector('h3').textContent = message.username;
+        }
+        getUsername();
+
+
+    </script>
+
+    <!-- script -->
+    <script src="../../Public/js/sweetalert2@11.js"></script>
+    <script src="../../Public/js/logout.js"></script>
+    <!--  -->
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <!-- link -->
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/Public/CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="/Public/CSS/login.css">
+    <script src="/Public/js/bootstrap.bundle.min.js"></script>
+    <!-- eye icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <!-- sweetalert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <!--  -->
+
+</head>
+
+<!-- <body> -->
+<div class="row" id="roww">
+    <div class="col-sm-4 p-4 border-rounded text-center bluee">
+        <div class="m-5">
+            <h1>LOGIN</h1>
+            <h1>to</h1>
+            <h1>"Research's borrowing"</h1>
+            <p>-----------Welcome back!-----------</p>
+        </div>
+        <div id="spac"></div>
+        <img id="bookpic" src="/Public/IMG/book.png" alt="book.img">
+        <p class="my-2">Contact us</p>
+        <a class="text text-white" href="#">supportteam.@aas.ac.th</a>
+    </div>
+
+    <div class="col mt-5 px-5 mx-5">
+        <!-- <div class="block"> -->
+        <div id="spac"></div>
+        <label for="username" class="h1">Username</label>
+        <input type="text" id="username" name="username" placeholder="USERNAME" class="form-control">
+        <label for="password" class="h1">Password</label>
+        <input type="password" id="password" name="password" placeholder="PASSWORD" class="form-control">
+
+        <div class="row my-2">
+            <!-- <div>
+                <input type="checkbox" id="remember" class="text text-mute text-start">
+                <label for="remember" class="green">Remember me</label>
+            </div> -->
+            <!-- <a href="" class="text text-end redt">FORGET PASSWORD?</a> -->
+        </div>
+        <div class="text tex-mute text-end">OR DO YOU NOT HAVE ACCOUNT YET? LET <a href="register.html"
+                id='regis' class="text green text-end">REGISTER!</a></div>
+        <button id="login" class="btn btn-green text-white border-round my-2 btn-lg">Log in</button>
+        <!-- </div> -->
+    </div>
+</div>
+
+
+
+<script>
+    document.querySelector('#login').onclick = async function (e) {
+    // do not refresh form(prevent the default form refresh)
+    e.preventDefault();
+    // 1. get username and password
+    const username = document.querySelector('#username').value;
+    const password = document.querySelector('#password').value;
+
+    if (!username || !password) {
+        alert('Please enter both username and password.');
+        return;
+    }
+
+    try {
+        const options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ "username": username, "password": password })
+        };
+        // connect to the server to get data
+        const response = await fetch('/login', options);
+        if (response.ok) {
+            // login success
+            const message = await response.text();
+            // jump to welcome page
+            location.replace(message);
+        }
+        else if (response.status == 401) {
+            // login fail
+            const message = await response.text();
+            throw Error(message);
+        } else {
+            throw Error('Server error');
+        }
+
+    } catch (error) {
+        alert(error.message);
+
+    }
+};
+    
+document.querySelector('#regis').onclick = async function (e) {
+    e.preventDefault();
+    window.location.replace('/register');
+};
+
+</script>
+</body>
+<!-- script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+<!--  -->
+</html>

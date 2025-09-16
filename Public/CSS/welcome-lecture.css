@@ -1,0 +1,32 @@
+.large-text {
+    font-size: 48px;
+    text-align: center;
+}
+.window {
+    width: 1000px;
+    height: 550px;
+    background-color:rgb(255, 255, 255);
+    border: 5px solid #6756c7;
+    border-radius: 10px;
+    margin: 50px auto;
+  
+    margin-top: 150px ;
+
+}
+.large-btn {
+    padding: 20px 40px;
+    font-size: 24px;
+    border-radius: 10px;
+    background-color: #c5b800;
+    color: white;
+    border: green;
+    cursor: pointer;
+    margin: 50px 10px 10px 10px;
+}
+
+.large-btn:hover {
+    background-color: #45a049;
+}
+.logoweb {
+    text-align: center; 
+}

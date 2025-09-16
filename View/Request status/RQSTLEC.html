@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- link -->
+    <link rel="stylesheet" href="/Public/CSS/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" href="../img/bx-user.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/Public/CSS/RQSTLEC.css">
+    <link rel="stylesheet" href="/Public/CSS/navbar.css">
+    <link rel="stylesheet" href="/Public/CSS/logout.css">
+    <!--  -->
+
+    <title>Request Status</title>
+</head>
+
+<body>
+    <nav class="nav-con">
+        <div class="user-profile">
+            <i class='bx bxs-user-circle'></i>
+            <h3 id="lect"></h3>
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="" id="Booklist-lecturer">Booklist</a></li>
+                <li><a href="requestlect">Request Status</a></li>
+                <li><a href="dashboardlect">Dashborad</a></li>
+                <li><a href="historylender">History</a></li>
+                <li><a href="" id="logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="header">
+        <br><br><br><br>
+        <h1>Request status list </h1>
+    </div>
+    <div id="showrequ"></div>
+    <script>
+        async function getRequestStatusList() {
+            try {
+                const options = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                };
+
+                // เรียก API เพื่อดึงข้อมูล request จากเซิร์ฟเวอร์
+                const response = await fetch('/requestlect', options);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+
+                    let html = '';
+                    // นำข้อมูลที่ได้รับมาแสดงเฉพาะ request ที่มี status เป็น 1 (waiting)
+                    data.forEach(request => {
+                        if (request.status === 1) {
+                            html += `
+                        <div class="flexbox">
+                            <div class="partimg">
+                                <img src="/Public/IMG/${request.img}" alt="${request.name}" class="imgbook">
+                            </div>
+                            <div class="partdata">
+                                <b>Request no.: ${request.no}</b> <br>
+                                <b>Book Name: ${request.name}</b>
+                                <p>Borrowing Date: ${request.borrowing_date}</p>
+                                <p>Returned Date: ${request.returned_date}</p>
+                            </div>
+                            <div class="partstatus">
+                                <h3 class="text-warning">Waiting for approve</h3>
+                                <button class="approvebtn" onclick="approveRequest(${request.no})">Approve</button>
+                                <button class="disapprovebtn" onclick="disapproveRequest(${request.no})">Disapprove</button>
+                            </div>
+                        </div>`;
+                        }
+                    });
+
+                    document.getElementById('showrequ').innerHTML = html;
+                } else {
+                    throw new Error('Server error');
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        getRequestStatusList();
+
+
+        async function approveRequest(requestNo) {
+            try {
+                const options = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ requestNo, action: 'approve' }) // ส่ง requestNo และ action ไปยังเซิร์ฟเวอร์
+                };
+
+                const response = await fetch('/updateRequest', options); // เปลี่ยน '/updateRequest' เป็น API ที่ใช้สำหรับอัปเดต request
+
+                if (response.ok) {
+                    // อัปเดต UI หรือทำอย่างอื่นตามที่ต้องการหลังจากอัปเดตสถานะสำเร็จ
+                    console.log('Request approved successfully');
+                    getRequestStatusList(); // เรียกใหม่เพื่อแสดงรายการ request ที่อัปเดตแล้ว
+                } else {
+                    throw new Error('Failed to approve request');
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        async function disapproveRequest(requestNo) {
+            try {
+                const options = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ requestNo, action: 'disapprove' }) // ส่ง requestNo และ action ไปยังเซิร์ฟเวอร์
+                };
+
+                const response = await fetch('/updateRequest', options); // เปลี่ยน '/updateRequest' เป็น API ที่ใช้สำหรับอัปเดต request
+
+                if (response.ok) {
+                    // อัปเดต UI หรือทำอย่างอื่นตามที่ต้องการหลังจากอัปเดตสถานะสำเร็จ
+                    console.log('Request disapproved successfully');
+                    getRequestStatusList(); // เรียกใหม่เพื่อแสดงรายการ request ที่อัปเดตแล้ว
+                } else {
+                    throw new Error('Failed to disapprove request');
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        document.querySelector('#logout').onclick = function () {
+            event.preventDefault();
+            Swal.fire({
+                customClass: {
+                    confirmButton: "custom-button-confirm", // Define your custom class name
+                    cancelButton: "custom-button-cancel", // Apply the same class to the cancel button
+                },
+                buttonsStyling: false,
+                title: "<h5 style='color: black'>Are you sure?</h5>",
+                text: "TO LOGOUT THIS ID ACCOUNT?",
+                icon: "question",
+                imageUrl: "/Public/IMG/book.png",
+                imageWidth: 150,
+                showCancelButton: true,
+                confirmButtonColor: "#4d9f9f",
+                cancelButtonColor: "#f1eee5",
+                confirmButtonText: "Yes!",
+                cancelButtonText: "No"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    window.location.replace('/logout');
+                }
+            });
+        }
+
+
+
+        async function getUsername() {
+            try {
+                // connect to the server to get data
+                const response = await fetch('/user');
+                if (response.ok) {
+                    // login success
+                    const message = await response.json();
+                    // when be in json no need to jumb to another page
+                    document.querySelector('#lect').textContent = 'The request status of ' + message.username;
+                }
+                else if (response.status == 401) {
+                    // login fail
+                    const message = await response.text();
+                    throw Error(message);
+                } else {
+                    throw Error('Server error');
+                }
+
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        async function getUsername() {
+            const response = await fetch('/user');
+            const message = await response.json();
+            document.querySelector('h3').textContent = message.username;
+        }
+        getUsername();
+
+        // booklist
+        document.querySelector('#Booklist-lecturer').onclick = async function (e) {
+            e.preventDefault();
+            window.location.replace('/Booklist-lecturer');
+        };
+        // Request status
+        document.querySelector('#requestlect').onclick = async function (e) {
+            e.preventDefault();
+            window.location.replace('/requestlect');
+        };
+
+        // History
+        document.querySelector('#historylender').onclick = async function (e) {
+            e.preventDefault();
+            window.location.replace('/historylender');
+        };
+        // dashborad
+        document.querySelector('#dashboardlect').onclick = async function (e) {
+            e.preventDefault();
+            window.location.replace('/dashboardlect');
+        };
+
+    </script>
+
+
+</body>
+
+<!-- script -->
+<script src="/Public/js/bootstrap.bundle.min.js"></script>
+<script src="/Public/js/logout.js"></script>
+<script src="/Public/js/sweetalert2@11.js"></script>
+<!--  -->
+
+</html>

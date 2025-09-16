@@ -1,0 +1,27 @@
+/* SweetAlert */
+.swal2-popup {
+    background-color: #f1eee5; /* Change this to the desired background color */
+}
+.custom-button-cancel {
+    border: 2px solid #4d9f9f; 
+     /* Customize the border color as desired */
+    border-radius: 25px; 
+    /* Set the desired border radius */
+    color: #4d9f9f; /* Text color */
+    background-color: #f1eee5; /* Background color */
+    cursor: pointer;
+    width: 80px;
+    height: 50px;
+}
+.custom-button-confirm {
+    border: 2px solid #4d9f9f; 
+     /* Customize the border color as desired */
+    border-radius: 25px; 
+    /* Set the desired border radius */
+    color: #f1eee5; /* Text color */
+    background-color: #4d9f9f; /* Background color */
+    cursor: pointer;
+    width: 80px;
+    height: 50px;
+    margin-right: 30px;
+}

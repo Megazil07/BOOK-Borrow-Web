@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History(Lecturer)</title>
+
+    <!-- link -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/Public/CSS/historyLecture.css">
+    <link rel="stylesheet" href="/Public/CSS/navbar.css">
+    <link rel="stylesheet" href="/Public/CSS/logout.css">
+    <!--  -->
+
+</head>
+
+<body>
+    <nav class="nav-con">
+        <div class="user-profile">
+            <i class='bx bxs-user-circle'></i>
+            <h3></h3>
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="" id="Booklist-lecturer">Booklist</a></li>
+                <li><a href="requestlect">Request Status</a></li>
+                <li><a href="dashboardlect">Dashborad</a></li>
+                <li><a href="historylender">History</a></li>
+                <li><a href="" id="logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- index -->
+    <h1 class="flex-row">History</h1>
+    <div class="tbdata">
+        <table class="table table-striped" id="userHistoryTable">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Book ID</th>
+                    <th>Book Name</th>
+                    <th>Borrowing Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                    <th>Staff ID</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        async function gethistoryuserList() {
+            try {
+                const options = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                };
+
+                const response = await fetch('/historylender', options);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+
+                    let html = '';
+                    // นำข้อมูลที่ได้รับมาแสดงเฉพาะ request ที่มี status เป็น 3 หรือ 4
+                    data.forEach(history => {
+                        // if (history.status === 3 || history.status === 4) {
+                        let status;
+                        if (history.status == 3) {
+                            status = 'returned';
+                        } else {
+                            status = 'Disapprove';
+                        }
+
+                        html += `<tr> 
+                                <td>${history.student_id}</td>
+                                <td>${history.book_id}</td>
+                                <td>${history.name}</td>
+                                <td>${history.borrowing_date}</td>
+                                <td>${history.returned_date}</td>
+                                <td>${status}</td>
+                                <td>${history.staff_id}</td>
+                            </tr>`;
+
+                    });
+                    document.getElementById('tbody').innerHTML = html;
+                } else if (response.status == 401) {
+                    const message = await response.text();
+                    throw new Error(message);
+                }
+                else {
+                    throw new Error('Failed to fetch user history:' + error);
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+        gethistoryuserList();
+        async function getUsername() {
+            const response = await fetch('/user');
+            const message = await response.json();
+            document.querySelector('h3').textContent = message.username;
+        }
+        getUsername();
+
+        // booklist
+        document.querySelector('#Booklist-lecturer').onclick = async function (e) {
+            e.preventDefault();
+            window.location.replace('/Booklist-lecturer');
+        };
+        // Request status
+        document.querySelector('#requestlect').onclick = async function (e) {
+            e.preventDefault();
+            window.location.replace('/requestlect');
+        };
+
+        // History
+        document.querySelector('#historylender').onclick = async function (e) {
+            e.preventDefault();
+            window.location.replace('/historylender');
+        };
+        // dashborad
+        document.querySelector('#dashboardlect').onclick = async function (e) {
+            e.preventDefault();
+            window.location.replace('/dashboardlect');
+        };
+
+        
+
+    </script>
+
+    <!-- script -->
+    <script src="/Public/js/sweetalert2@11.js"></script>
+    <script src="/Public/js/logout.js"></script>
+    <!--  -->
+</body>
+
+</html>

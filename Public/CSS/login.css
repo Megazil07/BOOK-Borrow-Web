@@ -1,0 +1,83 @@
+#bookpic{
+    height: 200px;
+    width: 200px;
+    /* align-items: center; */
+    /* justify-content: center; */
+}
+.bluee{
+    border-radius: 0px 16px 16px 0px;
+    background-color: #436191;
+    color: white;
+}
+#roww{
+    height: 100vh;
+}
+#spac{
+    height: 10vh;
+}
+.btn-green{
+    background-color: #4d9f9f;
+    border-radius: 70px;
+}
+.btn-pink{
+    background-color: #d15b50;
+    border-radius: 70px;
+}
+.btn-green:hover{
+    color: #4d9f9f;
+    border-color: #4d9f9f;
+    border-radius: 70px;
+}
+.btn-pink:hover{
+    color: #d15b50;
+    border-color: #d15b50;
+    border-radius: 70px;
+}
+.green{
+    color: #4d9f9f;
+}
+/* #togglePassword{
+    margin-left: 0px; 
+    cursor: pointer;
+} */
+.input-group-append{
+    margin-left: 10px;
+}
+/* .bluebg{
+    background-color: #436191;
+} */
+.creamt{
+    color: #e6d9c9;
+}
+.redt{
+    color: #d13e36;
+}
+.custom-button-confirm {
+    border: 2px solid #4d9f9f; 
+     /* Customize the border color as desired */
+    border-radius: 25px; 
+    /* Set the desired border radius */
+    color: #f1eee5; /* Text color */
+    background-color: #4d9f9f; /* Background color */
+    cursor: pointer;
+    width: 80px;
+    height: 50px;
+    margin-right: 30px;
+}
+.swal2-popup {
+    background-color: #f1eee5 !important; /* Change this to the desired background color */
+}
+#login:hover{
+    color: #4d9f9f !important;
+    border-color: #4d9f9f !important;
+}
+#regis:hover{
+    color: #4d9f9f !important;
+    border-color: #4d9f9f !important;
+}
+
+#showMassage {
+    color: red;
+    width: 40rem;
+    font-size: 15px;
+}

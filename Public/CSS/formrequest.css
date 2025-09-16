@@ -1,0 +1,300 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: rgb(255, 254, 254);
+}
+
+.nav-con {
+    background: #446296;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: fixed;
+}
+
+.user-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.user-profile i {
+    font-size: 40px;
+}
+
+.user-profile h3 {
+    margin-left: 5px;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu ul {
+    display: flex;
+    list-style: none;
+    
+}
+
+.menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 20px;
+}
+
+.menu a:hover {
+    color: red;
+    transition: 0.5s;
+}
+
+
+/* main */
+.text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8rem 0 5rem 0;
+}
+
+.text h1 {
+    font-size: 100px;
+}
+
+.text h2 {
+    font-size: 50px;
+}
+
+
+.item-con {
+    padding-top: 100px;
+    padding-left: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.item {
+    background: #446296;
+    width: 40rem;
+    height: 15rem;
+    margin: 50px 0 10px 0;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.image {
+    padding: 5px;
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    display: flex;
+    justify-content: center;
+}
+
+.image img {
+    height: 13rem;
+    margin-top: 10px;
+}
+
+.info {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    margin-top: 38px;
+    margin-left: 6px;
+
+}
+
+#status {
+    padding-left: 5px;
+    color: rgb(43, 255, 43);
+}
+
+.btn button{
+    margin-top: 10px;
+    width: 5rem;
+    height: 3rem;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 18px;
+    background: rgb(255, 255, 255);
+}
+
+.btn button:hover {
+    background: red;
+    color: #fff;
+    transition: 0.5s;
+
+}
+
+
+
+.bookname {
+    display: flex;
+    font-size: 10px;
+    margin-left: 19px;
+}
+.type {
+    display: flex;
+    font-size: 15px;
+    margin-top: -30px;
+}
+.Publisher {
+    display: flex;
+    font-size: 15px;
+    margin-top: -30px;
+}
+.printdate {
+    display: flex;
+    font-size: 15px;
+    margin-top: -30px;
+}
+
+.bookID-con {
+    display: flex;
+    font-size: 15px;
+}
+
+/* request-form */
+
+.request-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30rem;
+    margin-top: 30px;
+}
+
+.form-date{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 2rem 0 0;
+    background: #446296;
+    border-radius: 20px;
+    width: 50rem;
+    height: 20rem;
+}
+
+.name-id {
+    display: flex;
+}
+
+.name-id p {
+    margin: 10px;
+    font-size: 30px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.date {
+    display: flex;
+    color: #fff;
+    margin-top: 2rem;
+}
+.date p {
+    padding: 10px;
+}
+
+.btn-con {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #446296;
+    width: 30rem;
+    height: 20rem;
+    border-radius: 20px;
+}
+
+.btn-con button {
+    width: 20rem;
+    height: 4rem;
+    border: none;
+    outline: none;
+    margin: 10px 0 10px 0;
+    border-radius: 10px;
+    font-size: 30px;
+}
+
+.btn-con a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.btn-con button {
+    cursor: pointer;
+}
+
+#submit-btn {
+    background: #00bf63;
+}
+
+#back-btn {
+    background: red;
+}
+
+/* SweetAlert */
+
+.SwalContainer h1,h2,h4,h5 {
+    margin: 20px;
+}
+
+.title {
+    font-size: 60px;
+    font-weight: 1000;
+    color: #00bf63;
+}
+
+.Swaldate-con {
+    display: flex;
+    justify-content: center;
+}
+
+.Swaldate-con h5 {
+    margin: 0 5px 0 5px;
+    color: red;
+    font-size: 30px;
+}
+
+/* SweetAlert Logout*/
+.swal2-popup {
+    background-color: #f1eee5; /* Change this to the desired background color */
+}
+.custom-button-cancel {
+    border: 2px solid #4d9f9f; 
+     /* Customize the border color as desired */
+    border-radius: 25px; 
+    /* Set the desired border radius */
+    color: #4d9f9f; /* Text color */
+    background-color: #f1eee5; /* Background color */
+    cursor: pointer;
+    width: 80px;
+    height: 50px;
+}
+.custom-button-confirm {
+    border: 2px solid #4d9f9f; 
+     /* Customize the border color as desired */
+    border-radius: 25px; 
+    /* Set the desired border radius */
+    color: #f1eee5; /* Text color */
+    background-color: #4d9f9f; /* Background color */
+    cursor: pointer;
+    width: 80px;
+    height: 50px;
+    margin-right: 30px;
+}

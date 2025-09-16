@@ -1,0 +1,53 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.nav-con {
+    background: #446296;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: fixed;
+    top: 0;
+}
+.user-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.user-profile i {
+    font-size: 40px;
+}
+
+.user-profile h3 {
+    margin-left: 5px;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu ul {
+    display: flex;
+    list-style: none;
+}
+
+.menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 20px;
+}
+
+.menu a:hover {
+    color: red;
+    transition: 0.5s;
+}

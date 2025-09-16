@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!--=============== REMIXICONS ===============-->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+  <!--=============== CSS ===============-->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/Public/CSS/dashbordstaff.css">
+  <link rel="stylesheet" href="/Public/CSS/logout.css">
+  <link rel="stylesheet" href="/public/css/navbar.css">
+  <link rel="stylesheet" href="/Public/CSS/dashbordstaff.css">
+
+  <title>Dashboard</title>
+</head>
+
+<body>
+  <!--=============== HEADER ===============-->
+  <nav class="nav-con">
+    <div class="user-profile">
+      <i class='bx bxs-user-circle'></i>
+      <h3 id="lect"></h3>
+    </div>
+    <div class="menu">
+      <ul>
+        <li><a href="#" id="Booklist-lecturer">Booklist</a></li>
+        <li><a href="#" id="requestlect">Request status</a></li>
+        <li><a href="#" id="dashboardlect">Dashboard</a></li>
+        <li><a href="#" id="historylender">History</a></li>
+        <li><a href="#" id="logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="header">
+    <br><br><br><br>
+    <h1>Dashboard</h1>
+  </div>
+  <div id="showdash"></div>
+
+  <script>
+    async function getDashboard() {
+      // e.preventDefault();
+      try {
+        const options = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        };
+        // connect to the server to get data
+        const response = await fetch('/dashboardlect', options);
+        if (response.ok) {
+          const data = await response.json();
+          let borrowedAssets = 0;
+          let availableAssets = 0;
+          let disabledAssets = 0;
+
+          // In your getDashboard function
+          data.forEach(request => {
+            if (request.status == 3) {
+              borrowedAssets++;
+            } else if (request.status == 1) {
+              availableAssets++;
+            } else if (request.status == 4) {
+              disabledAssets++;
+            } else if (request.status == 2) {
+              // Handle pending assets
+            }
+          });
+
+          let html = `
+            <div class="container">
+                        <div class="flexbox">
+                          <h3 class="text_topic">Borrowed assets</h3>
+                            <h3 class="text-lightgreen">${borrowedAssets}</h3>
+                          </div>  
+                          
+                        
+                        
+                        <div class="flexbox">
+                          
+                            <h3 class="text_topic">Available assets     
+                            <h3 class="text-lightgreen">${availableAssets}</h3></h3>
+                          
+                        </div>
+
+                        <div class="flexbox">
+                          
+                            <h3 class="text_topic">Disabled assets
+                            <h3 class="text-lightgreen">${disabledAssets}</h3></h3>
+                        </div>
+                      </div>
+                    `;
+
+          document.getElementById('showdash').innerHTML = html;
+        } else if (response.status == 401) {
+          const message = await response.text();
+          throw Error('message');
+        } else {
+          throw Error('Server error')
+        }
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
+
+    // Call the function to fetch and display Dashboard
+    getDashboard();
+
+
+    document.querySelector('#logout').onclick = function () {
+      event.preventDefault();
+      Swal.fire({
+        customClass: {
+          confirmButton: "custom-button-confirm", // Define your custom class name
+          cancelButton: "custom-button-cancel", // Apply the same class to the cancel button
+        },
+        buttonsStyling: false,
+        title: "<h5 style='color: black'>Are you sure?</h5>",
+        text: "TO LOGOUT THIS ID ACCOUNT?",
+        icon: "question",
+        imageUrl: "/Public/IMG/book.png",
+        imageWidth: 150,
+        showCancelButton: true,
+        confirmButtonColor: "#4d9f9f",
+        cancelButtonColor: "#f1eee5",
+        confirmButtonText: "Yes!",
+        cancelButtonText: "No"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.clear();
+          sessionStorage.clear();
+          window.location.replace('/logout');
+        }
+      });
+    }
+
+    async function getUsername() {
+        const response = await fetch('/user');
+        const message = await response.json();
+        document.querySelector('h3').textContent = message.username;
+    }
+    getUsername();
+
+    
+    // booklist
+    document.querySelector('#Booklist-lecturer').onclick = async function (e) {
+      e.preventDefault();
+      window.location.replace('/Booklist-lecturer');
+    };
+    // Request status
+    document.querySelector('#requestlect').onclick = async function (e) {
+      e.preventDefault();
+      window.location.replace('/requestlect');
+    };
+
+    // History
+    document.querySelector('#historylender').onclick = async function (e) {
+      e.preventDefault();
+      window.location.replace('/historylender');
+    };
+    // dashborad
+    document.querySelector('#dashboardlect').onclick = async function (e) {
+      e.preventDefault();
+      window.location.replace('/dashboardlect');
+    };
+
+    
+  </script>
+    <!--=============== MAIN JS ===============-->
+    <script src="assets/javascripts/main.js"></script>
+    <script src="/Public/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="/Public/js/logout.js"></script> -->
+    <script src="/Public/js/sweetalert2@11.js"></script>
+
+</body>
+
+</html>

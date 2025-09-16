@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOOKLIST</title>
+    <link rel="short cut icon" href="/Public/IMG/LOGO-WEB.jpg">
+    <link rel="stylesheet" href="/Public/CSS/welcome-staff.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" href="../img/bx-book-alt.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/Public/CSS/navbar.css">
+    <link rel="stylesheet" href="/Public/CSS/logout.css">
+</head>
+
+<body>
+    <!-- navbar -->
+    <nav class="nav-con">
+        <div class="user-profile">
+            <i class='bx bxs-user-circle'></i>
+            <h3></h3>
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="" id="logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- welcome  -->
+    <div class="window">
+        <div class="logoweb">
+            <img src="/Public/IMG/WELCOMELOGO (2).jpg" alt="logoweb" width="700">
+        </div>
+        <a href="http://localhost:3333/Booklist-staff"><button class="large-btn">BOOKLIST</button></a>
+        <a href="http://localhost:3333/dashboardstaff"><button class="large-btn">DASHBORD</button></a>
+        <a href="http://localhost:3333/historystaff"><button class="large-btn">HISTORY</button></a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/Public/js/logout.js"></script>
+
+    <script>
+        async function getUsername() {
+            const response = await fetch('/user');
+            const message = await response.json();
+            document.querySelector('h3').textContent = message.username;
+        }
+        getUsername();
+    </script>
+</html>

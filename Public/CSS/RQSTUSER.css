@@ -1,0 +1,67 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: rgb(255, 254, 254);
+}
+
+.header {
+    margin-top: 6rem;
+    display: flex;
+    justify-content: center;
+}
+
+.flexbox {
+    margin: 20px 300px;
+    background-color: rgb(97, 97, 182);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    border-radius: 10px;
+}
+
+.book {
+    width: 100%;
+    background-color: rgb(97, 97, 182);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.imgbook {
+    margin: 10px;
+    width: 100px;
+    border: 5px solid white;
+    border-radius: 10px;
+    align-self: center;
+}
+
+.partimg {
+    flex: 3;
+    margin: auto;
+}
+
+.partdata {
+    color: white;
+    text-align: center;
+    flex: 4;
+    margin: auto;
+}
+
+.partstatus {
+    text-align: center;
+    flex: 3;
+    margin: auto;
+}
+.text-lightgreen {
+    color: #40dd62;
+}
+.text-warning {
+    color: rgba(236, 218, 56, 0.899);
+}

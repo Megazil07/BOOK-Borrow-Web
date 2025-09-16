@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+
+    <!-- link -->
+    <link rel="stylesheet" href="/Public/CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="/Public/CSS/login.css">
+    <script src="/Public/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <!--  -->
+
+</head>
+
+<body>
+    <div class="row" id="roww">
+        <div class="col-sm-4 p-4 border-rounded text-center bluee">
+            <div class="m-5">
+                <h1>REGISTER</h1>
+                <h1>to</h1>
+                <h1>"Research's borrowing"</h1>
+                <p>---------Welcome newby!---------</p>
+            </div>
+            <div id="spac"></div>
+            <img id="bookpic" src="/public/img/book.png" alt="book.img">
+            <p class="my-2">Contact us</p>
+            <a class="text text-white" href="#">supportteam.@aas.ac.th</a>
+        </div>
+
+        <div class="col mt-5 px-5 mx-5">
+            <!-- <div class="block"> -->
+            <!-- <div id="spac"></div> -->
+            <label for="id" class="h1">Student ID</label>
+            <input type="text" id="id" name="id" placeholder="ID" class="form-control">
+
+            <label for="email" class="h1">Email</label>
+            <input type="text" id="email" name="email" placeholder="EMAIL" class="form-control">
+
+            <label for="name" class="h1">Full-Name</label>
+            <input type="text" id="name" name="name" placeholder="NAME" class="form-control">
+
+            <label for="username" class="h1">Username</label>
+            <input type="text" id="username" name="username" placeholder="USERNAME" class="form-control">
+
+            <label for="password" class="h1">Password</label>
+            <div class="input-group">
+                <input type="password" id="password" name="password" placeholder="PASSWORD" class="form-control">
+                <span class="input-group-text">
+                    <i id="togglePassword1" class="far fa-eye"></i>
+                </span>
+            </div>
+
+            <label for="conpassword" class="h1">Confirm Password</label>
+            <div class="input-group"><input type="password" id="conpassword" name="password"
+                    placeholder="CONFIRM PASSWORD" class="form-control">
+                <span class="input-group-text">
+                    <i id="togglePassword2" class="far fa-eye"></i>
+                </span>
+            </div>
+
+            <button id="regis" class="btn btn-green text-white border-round my-2 btn-lg">Register</button>
+            <div class="text creamt text-end">Already have an account?<a id='login' href="login.html"
+                    class="text redt text-end">Login</a></div>
+            <p id="showMassage">EMAIL MUST BE @LAMDUEN MAIL ONLY AND PASSWORD MUST CONTAIN UPPERCASE LETTERS AND NUMBERS AND AT LEAST 6 CHARACTERS LONG.</p>
+
+            <!-- </div> -->
+        </div>
+    </div>
+    <script>
+        
+
+        document.querySelector('#regis').onclick = async function (e) {
+    e.preventDefault(); // Prevent form submission
+
+    // Get form inputs
+    const id = document.querySelector('#id').value;
+    const email = document.querySelector('#email').value;
+    const fullname = document.querySelector('#name').value;
+    const username = document.querySelector('#username').value;
+    const password = document.querySelector('#password').value;
+    const conpassword = document.querySelector('#conpassword').value;
+
+    // Validate inputs
+    if (!validateInputs(id, email, fullname, username, password, conpassword)) {
+        return; // If validation fails, stop further execution
+    }
+
+    try {
+        const options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ "studentid": id, "email": email, "fullname": fullname, "username": username, "password": password, "conpassword": conpassword })
+        };
+
+        // Send registration request
+        const response = await fetch('/register', options);
+        if (response.ok) {
+            // If registration is successful, redirect to login page
+            Swal.fire({
+                icon: 'success',
+                title: 'Register successfully!'
+            }).then(() => {
+                window.location.href = 'http://localhost:3333/login';
+            });
+        } else if (response.status == 401) {
+            const message = await response.text();
+            throw Error(message);
+        } else {
+            throw Error('Server error');
+        }
+    } catch (error) {
+        alert(error.message); // Display error message
+    }
+};
+
+// Function to validate form inputs
+function validateInputs(id, email, fullname, username, password, conpassword) {
+    const showMassage = document.getElementById('showMassage');
+
+    // Check if any field is empty
+    if (!id || !email || !fullname || !username || !password || !conpassword) {
+        showMassage.innerHTML = 'PLEASE FILL IN ALL FIELDS.';
+        return false;
+    }
+
+    // Check email format
+    if (!email.includes('@') || !email.includes('@lamduan.mfu.ac.th')) {
+        showMassage.innerHTML = 'PLEASE ENTER A VALID EMAIL ADDRESS.';
+        return false;
+    }
+
+    // Check password length and format
+    if (password.length < 6 || !/[A-Z]/.test(password) || !/\d/.test(password)) {
+        showMassage.innerHTML = 'PASSWORD MUST BE AT LEAST 6 CHARACTERS LONG AND CONTAIN UPPERCASE LETTERS AND NUMBERS.';
+        return false;
+    }
+
+    // Check if passwords match
+    if (password !== conpassword) {
+        showMassage.innerHTML = 'PASSWORDS DO NOT MATCH';
+        return false;
+    }
+
+    showMassage.innerHTML = ''; // Clear error message if validation succeeds
+    return true;
+}
+
+// Toggle password visibility
+document.querySelector('#togglePassword1').addEventListener('click', function () {
+    togglePasswordVisibility('#password');
+});
+
+document.querySelector('#togglePassword2').addEventListener('click', function () {
+    togglePasswordVisibility('#conpassword');
+});
+
+function togglePasswordVisibility(selector) {
+    const passwordField = document.querySelector(selector);
+    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
+    this.classList.toggle('fa-eye-slash');
+}
+
+// Redirect to login page
+document.querySelector('#login').onclick = function (e) {
+    e.preventDefault();
+    window.location.replace('/login');
+};
+
+
+
+    </script>
+</body>
+
+<!-- script -->
+<script src="../../public/js/bootstrap.bundle.min.js"></script>
+<script src="/Public/js/sweetalert2@11.js"></script>
+<!--  -->
+
+</html>
